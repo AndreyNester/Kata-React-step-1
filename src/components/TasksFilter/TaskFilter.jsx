@@ -13,6 +13,9 @@ export default class TaskFilter extends React.Component{
 
   onClickFilter = (key) => {
 
+    const {onFilter} = this.props
+    onFilter(key);
+
     switch (key) {
 
       case 'All':
@@ -54,7 +57,6 @@ export default class TaskFilter extends React.Component{
 
   render(){
 
-    const {onFilter} = this.props
     const {buttons} = this.state;
 
     return ( 

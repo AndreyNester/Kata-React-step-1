@@ -6,28 +6,11 @@ import React from 'react';
 
 export default class App extends React.Component {
 
-  todoList = [
-    {
-      id: 1,
-      text: 'some text 1',
-      complited: false
-    },
-    {
-      id: 2,
-      text: 'some text 2',
-      complited: false
-    },
-    {
-      id: 3,
-      text: 'some text 3',
-      complited: false
-    },
-  ]
+  todoList = []
 
   state = {
     todoList : this.todoList
   }
-
 
   onDeleted = (id)=> {
     this.setState(({todoList})=>{
@@ -38,6 +21,8 @@ export default class App extends React.Component {
 
       const newArr = [...before, ...after];
 
+      this.todoList = newArr;
+
       return {
         todoList: newArr
       }
@@ -46,6 +31,9 @@ export default class App extends React.Component {
   }
 
   onComplited = (id) => {
+
+
+
     this.setState(({todoList})=>{
 
       const idx = todoList.findIndex((el)=>el.id === id)
@@ -55,6 +43,8 @@ export default class App extends React.Component {
         complited : !todoList[idx].complited
       }
 
+      this.todoList = newArr;
+
       return {
         todoList : newArr
       }
@@ -62,7 +52,16 @@ export default class App extends React.Component {
   }
 
   addItem = (text) => {
+
+    this.todoList = [...this.todoList, {
+      id :  this.todoList.length === 0 ? 1 : Math.max(...this.todoList.map((el)=>el.id)) + 1,
+      text : text,
+      complited : false
+    }]
+
     this.setState(({todoList})=>{
+
+
       
       return {
         todoList : [...todoList, {
@@ -74,23 +73,30 @@ export default class App extends React.Component {
     })
   }
 
-  onFilter = (e, key) => {
-
-    
-
+  onFilter = (key) => {
     switch (key) {
+
       case 'All':
-        e.target.classList.toggle('selected');
+
+        this.setState({
+          todoList: this.todoList.filter(el => true)
+        })
         break;
 
         case 'Active':
-          e.target.classList.toggle('selected');
+          this.setState({
+            todoList: this.todoList.filter(el => !el.complited)
+          })
         break;
 
-        case 'Complited':
-          e.target.classList.toggle('selected');
+        case 'Completed':
+          this.setState({
+            todoList: this.todoList.filter(el => el.complited)
+          })
         break;
     
+
+
       default:
         break;
     }
@@ -107,7 +113,7 @@ export default class App extends React.Component {
       </header>
       <section className='main'>
        <TaskList todoList={todoList} onDeleted={this.onDeleted} onComplited={this.onComplited}/>
-       <Footer onFilter={this.onFilter}/>
+       <Footer onFilter={this.onFilter} itemsCount = {todoList.length}/>
       </section>
     </section>
     )

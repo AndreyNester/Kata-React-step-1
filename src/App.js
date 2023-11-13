@@ -102,6 +102,17 @@ export default class App extends React.Component {
     }
   }
 
+  onClearCompleted = () => {
+
+    this.todoList = this.todoList.filter(el => !el.complited)
+    this.onFilter('Active')
+  }
+
+  activeCounter = () => {
+    console.log('11');
+    return this.todoList.filter(el => !el.complited).length
+  }
+
   render () {
     const {todoList} = this.state;
 
@@ -113,7 +124,7 @@ export default class App extends React.Component {
       </header>
       <section className='main'>
        <TaskList todoList={todoList} onDeleted={this.onDeleted} onComplited={this.onComplited}/>
-       <Footer onFilter={this.onFilter} itemsCount = {todoList.length}/>
+       <Footer onClearCompleted={this.onClearCompleted} onFilter={this.onFilter} itemsCount = {this.activeCounter()}/>
       </section>
     </section>
     )

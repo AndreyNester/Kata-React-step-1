@@ -6,25 +6,28 @@ import React from 'react';
 
 export default class App extends React.Component {
 
+  todoList = [
+    {
+      id: 1,
+      text: 'some text 1',
+      complited: false
+    },
+    {
+      id: 2,
+      text: 'some text 2',
+      complited: false
+    },
+    {
+      id: 3,
+      text: 'some text 3',
+      complited: false
+    },
+  ]
+
   state = {
-    todoList : [
-      {
-        id: 1,
-        text: 'some text 1',
-        complited: false
-      },
-      {
-        id: 2,
-        text: 'some text 2',
-        complited: false
-      },
-      {
-        id: 3,
-        text: 'some text 3',
-        complited: false
-      },
-    ]
+    todoList : this.todoList
   }
+
 
   onDeleted = (id)=> {
     this.setState(({todoList})=>{
@@ -71,6 +74,27 @@ export default class App extends React.Component {
     })
   }
 
+  onFilter = (e, key) => {
+
+    
+
+    switch (key) {
+      case 'All':
+        e.target.classList.toggle('selected');
+        break;
+
+        case 'Active':
+          e.target.classList.toggle('selected');
+        break;
+
+        case 'Complited':
+          e.target.classList.toggle('selected');
+        break;
+    
+      default:
+        break;
+    }
+  }
 
   render () {
     const {todoList} = this.state;
@@ -83,7 +107,7 @@ export default class App extends React.Component {
       </header>
       <section className='main'>
        <TaskList todoList={todoList} onDeleted={this.onDeleted} onComplited={this.onComplited}/>
-       <Footer/>
+       <Footer onFilter={this.onFilter}/>
       </section>
     </section>
     )

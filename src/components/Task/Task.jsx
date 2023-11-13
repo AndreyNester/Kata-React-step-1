@@ -1,19 +1,40 @@
+import React from 'react';
 import './Task.css';
 
-function Task() {
-  return ( 
-    <li className="">
-    <div className="view">
-      <input type="checkbox" className="toggle" />
-      <label>
-        <span className="description">Active task</span>
-        <span className="created">created 5 minutes ago</span>
-      </label>
-      <button className="icon icon-edit"></button>
-      <button className="icon icon-destroy"></button>
-    </div>
-  </li>
-   );
-}
+export default class Task extends React.Component {
 
-export default Task;
+  onClickSpan = () => {
+    this.setState((oldState)=>{
+      return {
+        ...oldState,
+        completed : !oldState.completed
+      }
+    })
+  }
+  
+  state = {
+    completed: false
+  }
+
+  render(){
+
+    const {text, onDeleted, id} = this.props;
+    const {completed} = this.state;
+
+
+
+    return (
+      <li className={completed ? 'completed' : ''} >
+      <div className="view">
+        <input type="checkbox" className="toggle" onChange={this.onClickSpan} checked={completed}/>
+        <label>
+          <span className="description" onClick={this.onClickSpan}>{text}</span>
+          <span className="created">created 5 minutes ago</span>
+        </label>
+        <button className="icon icon-edit"></button>
+        <button className="icon icon-destroy" onClick={()=>{ onDeleted(id) }}></button>
+      </div>
+    </li>
+    )
+  }
+}

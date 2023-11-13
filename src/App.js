@@ -58,6 +58,18 @@ export default class App extends React.Component {
     })
   }
 
+  addItem = (text) => {
+    this.setState(({todoList})=>{
+      
+      return {
+        todoList : [...todoList, {
+          id :  todoList.length === 0 ? 1 : Math.max(...todoList.map((el)=>el.id)) + 1,
+          text : text,
+          complited : false
+        }]
+      }
+    })
+  }
 
 
   render () {
@@ -67,7 +79,7 @@ export default class App extends React.Component {
       <section className='todoapp'>
       <header className='header'>
         <h1>todos</h1>
-        <NewTaskForm/>
+        <NewTaskForm addItem={this.addItem}/>
       </header>
       <section className='main'>
        <TaskList todoList={todoList} onDeleted={this.onDeleted} onComplited={this.onComplited}/>

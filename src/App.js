@@ -11,14 +11,17 @@ export default class App extends React.Component {
       {
         id: 1,
         text: 'some text 1',
+        complited: false
       },
       {
         id: 2,
         text: 'some text 2',
+        complited: false
       },
       {
         id: 3,
-        text: 'some text 3'
+        text: 'some text 3',
+        complited: false
       },
     ]
   }
@@ -39,6 +42,22 @@ export default class App extends React.Component {
     })
   }
 
+  onComplited = (id) => {
+    this.setState(({todoList})=>{
+
+      const idx = todoList.findIndex((el)=>el.id === id)
+      const newArr = [...todoList];
+      newArr[idx] = {
+        ...todoList[idx],
+        complited : !todoList[idx].complited
+      }
+
+      return {
+        todoList : newArr
+      }
+    })
+  }
+
 
 
   render () {
@@ -51,7 +70,7 @@ export default class App extends React.Component {
         <NewTaskForm/>
       </header>
       <section className='main'>
-       <TaskList todoList={todoList} onDeleted={this.onDeleted} />
+       <TaskList todoList={todoList} onDeleted={this.onDeleted} onComplited={this.onComplited}/>
        <Footer/>
       </section>
     </section>

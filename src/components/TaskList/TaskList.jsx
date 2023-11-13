@@ -7,13 +7,19 @@ export default class TaskList extends React.Component {
 
   
   render() {
-    const {todoList, onDeleted} = this.props
+    const {todoList, onDeleted, onComplited} = this.props
 
     return (
       <ul className="todo-list" >
 
       {todoList.map((elem)=>{
-        return <Task key={elem.id} text={elem.text} active={elem.active} onDeleted={onDeleted} id={elem.id}/>
+        return <Task key={elem.id} 
+          text={elem.text}
+          complited={elem.complited}
+          onDeleted={onDeleted} 
+          id={elem.id}
+          onComplited={onComplited}
+        />
       })}
 
     </ul>

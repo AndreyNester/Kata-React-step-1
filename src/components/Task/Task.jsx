@@ -9,6 +9,22 @@ export default class Task extends React.Component {
     updateInterval : 5000
   };
 
+  static propTypes = {
+    updateInterval : (props, propName, componentName) => {
+      const value = props[propName];
+      if (typeof value == 'number' && !isNaN (value)) return null
+      return new TypeError (`${componentName}: ${propName} must be number!`)
+    },
+
+    id : (props, propName, componentName) => {
+      const value = props[propName];
+      if (typeof value == 'number' && !isNaN (value)) return null
+      return new TypeError (`${componentName}: ${propName} must be number!`)
+    },
+
+    
+  };
+
   state = {
     created : 'just now'
   }
@@ -16,6 +32,7 @@ export default class Task extends React.Component {
   componentDidMount () {
     const { updateInterval } = this.props
     this.timerId = setInterval(()=>{
+      console.log('hela');
       this.setState({
         created : formatDistanceToNow(new Date(this.props.createdAt), {includeSeconds: true}
         )

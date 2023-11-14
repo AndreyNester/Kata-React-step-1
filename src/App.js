@@ -128,22 +128,31 @@ export default class App extends React.Component {
   }
 
 
-
-
   render () {
     const {todoList} = this.state;
-
-    
 
     return (
       <section className='todoapp'>
       <header className='header'>
         <h1>todos</h1>
+
         <NewTaskForm addItem={this.addItem}/>
       </header>
       <section className='main'>
-       <TaskList dateUpdate={this.dateUpdate} todoList={todoList} onDeleted={this.onDeleted} onComplited={this.onComplited}/>
-       <Footer onClearCompleted={this.onClearCompleted} onFilter={this.onFilter} itemsCount = {this.activeCounter()}/>
+
+       <TaskList 
+          dateUpdate={this.dateUpdate} 
+          todoList={todoList} 
+          onDeleted={this.onDeleted} 
+          onComplited={this.onComplited}
+        />
+
+       <Footer 
+          onClearCompleted={this.onClearCompleted} 
+          onFilter={this.onFilter} 
+          itemsCount = {this.activeCounter()}
+        />
+
       </section>
     </section>
     )

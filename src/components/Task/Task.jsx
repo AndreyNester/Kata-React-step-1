@@ -5,18 +5,22 @@ import { formatDistanceToNow} from 'date-fns'
 
 export default class Task extends React.Component {
 
+  static defaultProps = {
+    updateInterval : 5000
+  };
+
   state = {
     created : 'just now'
   }
 
   componentDidMount () {
+    const { updateInterval } = this.props
     this.timerId = setInterval(()=>{
-      console.log('hella');
       this.setState({
         created : formatDistanceToNow(new Date(this.props.createdAt), {includeSeconds: true}
         )
       })
-    }, 2000)
+    }, updateInterval)
   }
 
   componentWillUnmount () {
@@ -26,8 +30,6 @@ export default class Task extends React.Component {
   render(){
 
     const {text, onDeleted, id, onComplited, complited} = this.props;
-    
-
 
     return (
       <li className={complited ? 'completed' : ''} >
@@ -39,6 +41,7 @@ export default class Task extends React.Component {
         </label>
         <button className="icon icon-edit"></button>
         <button className="icon icon-destroy" onClick={()=>{ onDeleted(id) }}></button>
+        
       </div>
     </li>
     )

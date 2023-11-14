@@ -22,11 +22,12 @@ export default class Task extends React.Component {
       return new TypeError (`${componentName}: ${propName} must be number!`)
     },
 
-    
+
   };
 
   state = {
-    created : 'just now'
+    created : 'just now',
+    editing : false
   }
 
   componentDidMount () {
@@ -56,7 +57,7 @@ export default class Task extends React.Component {
           <span className="description" onClick={()=>{onComplited(id)}}>{text}</span>
           <span className="created">{this.state.created}</span>
         </label>
-        <button className="icon icon-edit"></button>
+        <button className="icon icon-edit" ></button>
         <button className="icon icon-destroy" onClick={()=>{ onDeleted(id) }}></button>
         
       </div>

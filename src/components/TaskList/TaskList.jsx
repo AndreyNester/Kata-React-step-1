@@ -3,7 +3,7 @@ import Task from '../Task/Task';
 import React from 'react';
 
 
-const TaskList = ({todoList, onDeleted, onComplited}) =>{
+const TaskList = ({todoList, onDeleted, onComplited, onEddit}) =>{
 
   return (
     <ul className="todo-list" >

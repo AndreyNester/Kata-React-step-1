@@ -7,7 +7,7 @@ export default class TaskList extends React.Component {
 
   
   render() {
-    const {todoList, onDeleted, onComplited} = this.props
+    const {todoList, onDeleted, onComplited, dateUpdate} = this.props
 
     return (
       <ul className="todo-list" >
@@ -18,7 +18,9 @@ export default class TaskList extends React.Component {
           complited={elem.complited}
           onDeleted={onDeleted} 
           id={elem.id}
+          createdAt = {elem.createdAt}
           onComplited={onComplited}
+          dateUpdate = {dateUpdate}
         />
       })}
 

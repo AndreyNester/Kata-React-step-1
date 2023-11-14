@@ -4,6 +4,8 @@ import TaskList from './components/TaskList/TaskList';
 import Footer from './components/Footer/Footer';
 import React from 'react';
 
+import { formatDistanceToNow} from 'date-fns'
+
 export default class App extends React.Component {
 
   todoList = []
@@ -32,8 +34,6 @@ export default class App extends React.Component {
 
   onComplited = (id) => {
 
-
-
     this.setState(({todoList})=>{
 
       const idx = todoList.findIndex((el)=>el.id === id)
@@ -53,22 +53,19 @@ export default class App extends React.Component {
 
   addItem = (text) => {
 
-    this.todoList = [...this.todoList, {
-      id :  this.todoList.length === 0 ? 1 : Math.max(...this.todoList.map((el)=>el.id)) + 1,
-      text : text,
-      complited : false
-    }]
-
     this.setState(({todoList})=>{
 
+      const createTime = new Date()
 
-      
+      this.todoList = [...todoList, {
+        id :  this.todoList.length === 0 ? 1 : Math.max(...this.todoList.map((el)=>el.id)) + 1,
+        text : text,
+        complited : false,
+        createdAt: `${createTime.getMonth() + 1}.${createTime.getDate()}.${createTime.getFullYear()} ${createTime.getHours()}:${createTime.getMinutes()}:${createTime.getSeconds()}`
+      }]
+
       return {
-        todoList : [...todoList, {
-          id :  todoList.length === 0 ? 1 : Math.max(...todoList.map((el)=>el.id)) + 1,
-          text : text,
-          complited : false
-        }]
+        todoList : this.todoList
       }
     })
   }
@@ -109,12 +106,34 @@ export default class App extends React.Component {
   }
 
   activeCounter = () => {
-    console.log('11');
     return this.todoList.filter(el => !el.complited).length
   }
 
+  dateUpdate = () => {
+    if (this.todoList.length){
+      console.log('inter');
+
+      this.setState(()=>{
+        
+        return {
+          todoList : this.todoList.map( (el) => {
+            return {
+              ...el,
+              createdAt : formatDistanceToNow(new Date('06.05.2000 00:00:00'), {includeSeconds: true})
+            }
+          })
+        }
+      })
+    }
+  }
+
+
+
+
   render () {
     const {todoList} = this.state;
+
+    
 
     return (
       <section className='todoapp'>
@@ -123,7 +142,7 @@ export default class App extends React.Component {
         <NewTaskForm addItem={this.addItem}/>
       </header>
       <section className='main'>
-       <TaskList todoList={todoList} onDeleted={this.onDeleted} onComplited={this.onComplited}/>
+       <TaskList dateUpdate={this.dateUpdate} todoList={todoList} onDeleted={this.onDeleted} onComplited={this.onComplited}/>
        <Footer onClearCompleted={this.onClearCompleted} onFilter={this.onFilter} itemsCount = {this.activeCounter()}/>
       </section>
     </section>

@@ -13,6 +13,7 @@ export default class NewTaskForm extends React.Component {
       text : e.target.value
     })
   }
+  
   onSubmit = (e) => {
     e.preventDefault();
     if (this.state.text) {

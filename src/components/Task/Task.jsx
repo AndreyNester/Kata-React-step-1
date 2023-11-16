@@ -26,8 +26,8 @@ export default class Task extends React.Component {
   };
 
   state = {
-    created : 'just now',
-    editing : false
+    text: this.props.text,
+    created : 'less than 5 seconds',
   }
 
   componentDidMount () {
@@ -45,22 +45,45 @@ export default class Task extends React.Component {
     clearInterval(this.timerId)
   }
 
+  onTextChanged = (e) => {
+    this.setState({
+      text : e.target.value
+    })
+  }
+
+  onKeyUp = (e, id) => {
+    const {onEditTask} = this.props
+      if (e.code === 'Enter' ) {
+        
+        onEditTask(id, e.target.value)
+      }
+
+      if (e.code === 'Escape') {
+
+        onEditTask(id, this.props.text)
+
+      }
+  }
+
+
+
+
   render(){
 
-    const {text, onDeleted, id, onComplited, complited} = this.props;
+    const {text,onDeleted, id, onComplited, complited, onEdit,  editing} = this.props;
 
     return (
-      <li className={complited ? 'completed' : ''} >
+      <li className={ editing ? 'editing' : complited ? 'completed' : null} >
       <div className="view">
         <input type="checkbox" className="toggle" onChange={()=>onComplited(id)} checked={complited}/>
         <label>
           <span className="description" onClick={()=>{onComplited(id)}}>{text}</span>
-          <span className="created">{this.state.created}</span>
+          <span className="created">Created {this.state.created} ago</span>
         </label>
-        <button className="icon icon-edit" ></button>
+        <button className="icon icon-edit" onClick={(e)=>{onEdit(id)}}></button>
         <button className="icon icon-destroy" onClick={()=>{ onDeleted(id) }}></button>
-        
       </div>
+      {editing ? <input type="text" className="edit" value={this.state.text} onChange={(e)=>{this.onTextChanged(e)}} onKeyUp={(e)=>{this.onKeyUp(e, id)}}></input> : null} 
     </li>
     )
   }

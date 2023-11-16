@@ -72,38 +72,37 @@ export default class App extends React.Component {
   }
 
   onFilter = (key) => {
+    console.log(this.todoList);
     switch (key) {
 
       case 'All':
 
+      this.setState({
+        todoList : this.todoList
+      })
+        
+      break;
+
+
+      case 'Active':
+
+      this.setState({
+        todoList : this.todoList.filter(el=>!el.complited)
+      })
+        
+      break;
+
+
+      case 'Completed':
         this.setState({
-          todoList: this.todoList.filter(el => true)
+          todoList : this.todoList.filter(el=>el.complited)
         })
-        break;
+      break;
 
-        case 'Active':
-          this.setState({
-            todoList: this.todoList.filter(el => !el.complited)
-          })
-        break;
-
-        case 'Completed':
-          this.setState({
-            todoList: this.todoList.filter(el => el.complited)
-          })
-        break;
     
-
-
       default:
         break;
     }
-  }
-
-  onClearCompleted = () => {
-
-    this.todoList = this.todoList.filter(el => !el.complited)
-    this.onFilter('Active')
   }
 
   activeCounter = () => {

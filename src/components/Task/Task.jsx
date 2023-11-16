@@ -6,7 +6,7 @@ import { formatDistanceToNow} from 'date-fns'
 export default class Task extends React.Component {
 
   static defaultProps = {
-    updateInterval : 5000
+    updateInterval : 1000
   };
 
   static propTypes = {

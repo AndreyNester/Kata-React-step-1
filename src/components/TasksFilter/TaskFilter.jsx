@@ -11,23 +11,69 @@ export default class TaskFilter extends React.Component{
     }
   }
 
+  onSwitchButton = (key) => {
+    const {onFilter} = this.props;
+
+    switch (key) {
+        case 'All':
+          onFilter(key)
+          this.setState(({buttons})=>{
+            return {
+              buttons: {
+                all : true,
+                active : false,
+                completed : false
+              }
+            }
+          })
+        break;
+
+        case 'Active':
+          onFilter(key)
+          this.setState(({buttons})=>{
+            return {
+              buttons: {
+                all : false,
+                active : true,
+                completed : false
+              }
+            }
+          })
+        break;
+
+        case 'Completed':
+          onFilter(key)
+          this.setState(({buttons})=>{
+            return {
+              buttons: {
+                all : false,
+                active : false,
+                completed : true
+              }
+            }
+          })
+        break;
+    
+      default:
+        break;
+    }
+  }
+
 
   render(){
 
     const {buttons} = this.state;
 
-    const {onFilter} = this.props;
-
     return ( 
       <ul className="filters" >
         <li>
-          <button className={buttons.all ? 'selected' : ''} onClick={()=>{onFilter('All')}} >All</button>
+          <button className={buttons.all ? 'selected' : ''} onClick={()=>{this.onSwitchButton('All')}} >All</button>
         </li>
         <li>
-          <button className={buttons.active ? 'selected' : '' } onClick={()=>{onFilter('Active')}} >Active</button>
+          <button className={buttons.active ? 'selected' : '' } onClick={()=>{this.onSwitchButton('Active')}} >Active</button>
         </li>
         <li>
-          <button className={buttons.completed ? 'selected' : ''} onClick={()=>{onFilter('Completed')}} >Completed</button>
+          <button className={buttons.completed ? 'selected' : ''} onClick={()=>{this.onSwitchButton('Completed')}} >Completed</button>
         </li>
       </ul>
      );

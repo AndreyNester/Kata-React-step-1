@@ -17,10 +17,16 @@ export default class NewTaskForm extends React.Component {
   onSubmit = (e) => {
     e.preventDefault();
     if (this.state.text) {
+
       this.props.addItem(this.state.text)
 
-      this.setState({
-        text : ''
+      this.setState(()=>{
+
+        
+
+        return {
+          text : ''
+        }
       })
     }
   }

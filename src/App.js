@@ -34,16 +34,21 @@ export default class App extends React.Component {
 
   onComplited = (id) => {
 
+    console.log(this.todoList);
+
+    const idxD = this.todoList.findIndex((el)=>el.id === id)
+    this.todoList[idxD] = {
+      ...this.todoList[idxD],
+      complited : !this.todoList[idxD].complited
+    }
+
     this.setState(({todoList})=>{
 
       const idx = todoList.findIndex((el)=>el.id === id)
       const newArr = [...todoList];
       newArr[idx] = {
-        ...todoList[idx],
-        complited : !todoList[idx].complited
+        ...this.todoList[idxD]
       }
-
-      this.todoList = newArr;
 
       return {
         todoList : newArr
@@ -53,21 +58,18 @@ export default class App extends React.Component {
 
   addItem = (text) => {
 
-    this.setState(({todoList})=>{
+    const createTime = new Date()
 
-      const createTime = new Date()
+    this.todoList = [...this.todoList, {
+      id :  this.todoList.length === 0 ? 1 : Math.max(...this.todoList.map((el)=>el.id)) + 1,
+      text : text,
+      complited : false,
+      createdAt: `${createTime.getMonth() + 1}.${createTime.getDate()}.${createTime.getFullYear()} ${createTime.getHours()}:${createTime.getMinutes()}:${createTime.getSeconds()}`,
+      editing : false
+    }]
 
-      this.todoList = [...todoList, {
-        id :  this.todoList.length === 0 ? 1 : Math.max(...this.todoList.map((el)=>el.id)) + 1,
-        text : text,
-        complited : false,
-        createdAt: `${createTime.getMonth() + 1}.${createTime.getDate()}.${createTime.getFullYear()} ${createTime.getHours()}:${createTime.getMinutes()}:${createTime.getSeconds()}`,
-        editing : false
-      }]
-
-      return {
-        todoList : this.todoList
-      }
+    this.setState({
+      todoList : this.todoList
     })
   }
 
@@ -80,7 +82,6 @@ export default class App extends React.Component {
       this.setState({
         todoList : this.todoList
       })
-        
       break;
 
 
@@ -89,7 +90,6 @@ export default class App extends React.Component {
       this.setState({
         todoList : this.todoList.filter(el=>!el.complited)
       })
-        
       break;
 
 
@@ -128,14 +128,20 @@ export default class App extends React.Component {
   }
 
   onEdit = (id) => {
-    this.setState (({todoList})=>{
+
+    const idxD = this.todoList.findIndex((el)=>el.id === id)
+    this.todoList[idxD] = {
+      ...this.todoList[idxD],
+      editing : !this.todoList[idxD].editing
+    }
+
+    this.setState(({todoList})=>{
+
       const idx = todoList.findIndex((el)=>el.id === id)
       const newArr = [...todoList];
       newArr[idx] = {
-        ...todoList[idx],
-        editing : !todoList[idx].editing
+        ...this.todoList[idxD]
       }
-      this.todoList = newArr;
 
       return {
         todoList : newArr
@@ -144,15 +150,21 @@ export default class App extends React.Component {
   }
 
   onEditTask = (id, text) => {
-    this.setState (({todoList})=>{
+
+    const idxD = this.todoList.findIndex((el)=>el.id === id)
+    this.todoList[idxD] = {
+      ...this.todoList[idxD],
+      text : text,
+      editing : !this.todoList[idxD].editing
+    }
+    
+    this.setState(({todoList})=>{
+
       const idx = todoList.findIndex((el)=>el.id === id)
       const newArr = [...todoList];
       newArr[idx] = {
-        ...todoList[idx],
-        text : text,
-        editing : false
+        ...this.todoList[idxD]
       }
-      this.todoList = newArr;
 
       return {
         todoList : newArr

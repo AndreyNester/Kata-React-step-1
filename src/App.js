@@ -15,20 +15,24 @@ export default class App extends React.Component {
   }
 
   onDeleted = (id)=> {
+
+    const idxD = this.todoList.findIndex((el)=>el.id === id)
+    const before = this.todoList.slice(0, idxD);
+    const after = this.todoList.slice(idxD + 1);
+
+    this.todoList = [...before, ...after]
+
+
+
     this.setState(({todoList})=>{
       const idx = todoList.findIndex((el)=>el.id === id)
 
       const before = todoList.slice(0, idx);
       const after = todoList.slice(idx + 1);
 
-      const newArr = [...before, ...after];
-
-      this.todoList = newArr;
-
       return {
-        todoList: newArr
+        todoList: [...before, ...after]
       }
-
     })
   }
 

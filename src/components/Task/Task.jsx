@@ -20,6 +20,7 @@ export default class Task extends React.Component {
   };
 
   state = {
+    // eslint-disable-next-line react/no-unused-state
     text: () => {
       const { propText } = this.props;
       return propText;
@@ -44,7 +45,10 @@ export default class Task extends React.Component {
 
   onTextChanged = (e) => {
     this.setState({
-      text: e.target.value,
+      // eslint-disable-next-line react/no-unused-state
+      text: () => {
+        return e.target.value;
+      },
     });
   };
 
@@ -60,16 +64,17 @@ export default class Task extends React.Component {
   };
 
   render() {
-    const { propText, onDeleted, id, onComplited, complited, onEdit, editing } = this.props;
+    const { onDeleted, id, onComplited, complited, onEdit, editing } = this.props;
     const { text, created } = this.state;
 
     return (
       // eslint-disable-next-line no-nested-ternary
       <li className={editing ? 'editing' : complited ? 'completed' : null}>
-        <div className="view">
-          <input type="checkbox" className="toggle" onChange={() => onComplited(id)} checked={complited} />
-          <label htmlFor="#">
+        <form htmlFor={id} className="view">
+          <input id={id} type="checkbox" className="toggle" onChange={() => onComplited(id)} checked={complited} />
+          <label htmlFor={id}>
             <span
+              id="1"
               // eslint-disable-next-line jsx-a11y/aria-role, jsx-a11y/role-has-required-aria-props
               role="custom checkbox"
               className="description"
@@ -77,11 +82,14 @@ export default class Task extends React.Component {
                 onComplited(id);
               }}
             >
-              {propText}
+              {text()}
             </span>
-            <span className="created">Created {created} ago</span>
+            <span id={id} className="created">
+              Created {created} ago
+            </span>
           </label>
           <button
+            id={id}
             type="button"
             className="icon icon-edit"
             onClick={() => {
@@ -89,18 +97,20 @@ export default class Task extends React.Component {
             }}
           />
           <button
+            id={id}
             type="button"
             className="icon icon-destroy"
             onClick={() => {
               onDeleted(id);
             }}
           />
-        </div>
+        </form>
         {editing ? (
           <input
+            id={id}
             type="text"
             className="edit"
-            value={text}
+            value={text()}
             onChange={(e) => {
               this.onTextChanged(e);
             }}
